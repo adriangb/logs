@@ -7,18 +7,19 @@ This package is probably:
 - Buggy: especially around concurrency stuff, I didn't test that part at all
 - Opinionated: just because it's what I want or came up with today doesn't meant it's a good idea
 - Slow: I didn't benchmark anything
+- Undocumented: I'm don't plan on rewriting the stdlib docs, the differences are documented below
 
 So needless to say, this is not meant to be used by _anyone_.
 
 ## Changes
 
-So what are the changes? Well, off of the top of my head:
+So what are the changes?
 
-- No backwards compatibility stuff
 - Renamed the `extra` keyword to `data` and made it a first class citizen of `LogRecord`, which makes it much easier to use than trying figure out key collisions with the existing `LogRecord` attributes.
 - Only one way to format strings: the `string.format()` format.
 - By default, the root logger is configured to log to `sys.stderr`.
-- Type hints, no `*args, **kwargs` anywhere.
 - Filters don't modify LogRecord in place (which propagates to other handlers/loggers). Instead, they either return a LogRecord (the same one or a different modified one) or None (which breaks the filter chain).
 - Filters are (and can only be) a callable (including a class w/ `__call__`)
 - Testing tools, primarily to capture logs. Similar to `unittest.assertLogs` and Pytest's `caplog` fixture.
+- No backwards compatibility stuff
+- Type hints, no `*args, **kwargs` anywhere.
