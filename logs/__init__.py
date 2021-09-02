@@ -4,7 +4,7 @@ import typing as t
 import os
 import threading
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime
 
 from logs.levels import LogLevel, FiltererLevel
@@ -23,6 +23,9 @@ class LogRecord:
     @functools.cached_property
     def message(self):
         return self.template.format(**vars(self))
+    
+    def copy(self):
+        return replace(self)
 
 
 class Formatter:
