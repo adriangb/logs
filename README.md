@@ -19,3 +19,5 @@ So what are the changes? Well, off of the top of my head:
 - Only one way to format strings: the `string.format()` format.
 - By default, the root logger is configured to log to `sys.stderr`.
 - Type hints, no `*args, **kwargs` anywhere.
+- Filters don't modify LogRecord in place (which propagates to other handlers/loggers). Instead, they either return a LogRecord (the same one or a different modified one) or None (which breaks the filter chain).
+- Filters are (and can only be) a callable (including a class w/ `__call__`)
