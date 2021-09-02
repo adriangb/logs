@@ -23,11 +23,11 @@ class CapturingHandler(Handler):
 
 @contextmanager
 def capture_logs(
-    logger: t.Optional[t.Union[Logger, str]] = None,
-    level: t.Optional[t.Union[int, str]] = None,
+    logger: Logger | str | None = None,
+    level: int | str | None = None,
     *,
-    formatter: t.Optional[Formatter] = None,
-    filters: t.Optional[t.Sequence[Filter]] = None,
+    formatter: Formatter | None = None,
+    filters: t.Sequence[Filter] | None = None,
 ) -> t.Generator[CapturedRecord, None, None]:
     filters = filters or []
     filters = list(filters)
