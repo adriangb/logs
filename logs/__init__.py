@@ -63,10 +63,15 @@ class Filterer:
         self._lock = threading.RLock()
         self.filters = []
         self.level = level
+    
+    def at_level(self, level: FiltererLevel) -> bool:
+        if level.value < self.level.value:
+            return False
+        return True
 
-    def filter(self, record: LogRecord) -> LogRecord:
-        if record.level.value < self.level.value:
-            return
+    def filter(self, record: LogRecord) -> LogRecord | None:
+        if not self.at_level(record.level):
+            return None
         for filter in self.filters:
             record = filter(record)
             if not record:
@@ -181,7 +186,7 @@ class Logger(Filterer):
         )
 
     def debug(self, template: str, data: dict[str, t.Any] | None = None) -> None:
-        if self._at_level(LogLevel.DEBUG):
+        if self.at_level(LogLevel.DEBUG):
             self.log(
                 self._create_record(
                     template=template,
@@ -191,7 +196,7 @@ class Logger(Filterer):
             )
 
     def info(self, template: str, data: dict[str, t.Any] | None = None) -> None:
-        if self._at_level(LogLevel.INFO):
+        if self.at_level(LogLevel.INFO):
             self.log(
                 self._create_record(
                     template=template,
@@ -201,7 +206,7 @@ class Logger(Filterer):
             )
 
     def warning(self, template: str, data: dict[str, t.Any] | None = None) -> None:
-        if self._at_level(LogLevel.WARNING):
+        if self.at_level(LogLevel.WARNING):
             self.log(
                 self._create_record(
                     template=template,
@@ -211,7 +216,7 @@ class Logger(Filterer):
             )
 
     def error(self, template: str, data: dict[str, t.Any] | None = None) -> None:
-        if self._at_level(LogLevel.ERROR):
+        if self.at_level(LogLevel.ERROR):
             self.log(
                 self._create_record(
                     template=template,
@@ -221,7 +226,7 @@ class Logger(Filterer):
             )
 
     def critical(self, template: str, data: dict[str, t.Any] | None = None) -> None:
-        if self._at_level(LogLevel.CRITICAL):
+        if self.at_level(LogLevel.CRITICAL):
             self.log(
                 self._create_record(
                     template=template,
@@ -229,9 +234,6 @@ class Logger(Filterer):
                     data=data
                 )
             )
-    
-    def _at_level(self, level: FiltererLevel) -> bool:
-        return self.level >= level
 
 
 class _LoggerManager:
