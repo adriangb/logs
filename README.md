@@ -23,3 +23,17 @@ So what are the changes?
 - Testing tools, primarily to capture logs. Similar to `unittest.assertLogs` and Pytest's `caplog` fixture.
 - No backwards compatibility stuff
 - Type hints, no `*args, **kwargs` anywhere.
+
+## Example
+
+```python
+from logs import get_logger
+
+logger = get_logger(__name__)
+
+class Something:
+    prop: str = "See!"
+
+# Prints "Use string formatting: See!" to stderr
+logger.info("Use string formatting: {data[thing].prop}", data=dict(thing=Something()))
+```
