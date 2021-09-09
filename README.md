@@ -27,6 +27,9 @@ So what are the changes?
 
 ## Example
 
+You can run the following example by cloning the repo or pip installing from git.
+I do not plan to publish this on PyPi.
+
 ```python
 from logs import get_logger, LogRecord
 
