@@ -15,7 +15,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.10.0beta2'
+          python-version: '3.10-beta.2'
       - name: Install dependencies
         run: |
           pip install poetry
