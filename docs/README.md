@@ -42,6 +42,8 @@ Example usage:
 
 [testing.py](examples/testing.py ':include :type=code python')
 
+This tool can be ported to the standard library just by changing the imports.
+
 ### Binding of `extra` parameters
 
 A context manager to bind values to `extra`.
@@ -52,5 +54,7 @@ This context manager is coroutine and thread safe: only logs emitted from within
 Example usage:
 
 [bind.py](examples/bind.py ':include :type=code python')
+
+This tool can be ported to the standard library just by changing the imports.
 
 [Loguru]: https://github.com/Delgan/loguru
