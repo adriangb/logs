@@ -126,7 +126,7 @@ class StreamHandler(Handler):
 
 class Logger(Filterer):
     handlers: list[Handler]
-    parent: "Logger" | None
+    parent: t.Union["Logger", None]
 
     def __init__(
         self,
