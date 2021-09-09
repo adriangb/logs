@@ -16,7 +16,7 @@ def _get_ctx() -> dict | None:
 
 
 @contextmanager
-def bind(logger: Optional[Logger] = None, **kwargs) -> Generator[None, None, None]:
+def bind(logger: Optional[Logger] = None, /, **kwargs) -> Generator[None, None, None]:
     """Temporarily bind **kwargs into the logger's context.
 
     Every log record emitted will have **kwargs injected into it,
@@ -25,7 +25,8 @@ def bind(logger: Optional[Logger] = None, **kwargs) -> Generator[None, None, Non
     Parameters
     ----------
     logger : Logger
-        Logger to bind to.
+        Logger to bind to. Defaults to root logger.
+        Binds are injected by `logger` and effect all it's parents.
     **kwargs : Dict[str, Any]
         Attributes to bind to all emitted log records.
     """

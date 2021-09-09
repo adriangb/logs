@@ -13,6 +13,22 @@ def logger() -> Logger:
     return get_logger("test")
 
 
+def test_bind_defaults_to_root_logger(logger: Logger):
+    with capture_logs() as logs:
+        logger.info("TEST")
+        with bind(key="value"):
+            logger.info("TEST")
+            with bind(secondkey="value2"):
+                logger.info("TEST")
+        logger.info("TEST")
+
+    assert "key" not in logs.records[0].extra
+    assert logs.records[1].extra["key"] == "value"
+    assert logs.records[2].extra["key"] == "value"
+    assert logs.records[2].extra["secondkey"] == "value2"
+    assert "key" not in logs.records[3].extra
+
+
 def test_bind_context_management(logger: Logger):
     with capture_logs() as logs:
         logger.info("TEST")
