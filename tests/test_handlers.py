@@ -1,7 +1,7 @@
-from io import StringIO
 from datetime import datetime
+from io import StringIO
 
-from logs import StreamHandler, LogRecord
+from logs import LogRecord, StreamHandler
 from logs.levels import LogLevel
 
 
@@ -14,7 +14,7 @@ def test_stream_handler():
         extra={},
         created_at=time,
         process=0,
-        thread=0
+        thread=0,
     )
     stream = StringIO()
     handler = StreamHandler(stream=stream)

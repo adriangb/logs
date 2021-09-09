@@ -8,9 +8,7 @@ def test_get_root_logger():
     assert logger.name == ""
 
 
-@pytest.mark.parametrize(
-    "name", ("", "one", "one.two")
-)
+@pytest.mark.parametrize("name", ("", "one", "one.two"))
 def test_get_existing_logger(name: str):
     logger = get_logger(name)
     assert get_logger(name) is logger

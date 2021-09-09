@@ -1,8 +1,8 @@
-from logs.levels import FiltererLevel
 import typing as t
 from contextlib import contextmanager
 
 from logs import Filter, Formatter, Handler, Logger, LogRecord, get_logger
+from logs.levels import FiltererLevel
 
 
 class CapturedRecord(t.NamedTuple):
@@ -11,7 +11,12 @@ class CapturedRecord(t.NamedTuple):
 
 
 class CapturingHandler(Handler):
-    def __init__(self, level: t.Union[str, int] = FiltererLevel.NOTSET, *, recorder: CapturedRecord) -> None:
+    def __init__(
+        self,
+        level: t.Union[str, int] = FiltererLevel.NOTSET,
+        *,
+        recorder: CapturedRecord,
+    ) -> None:
         super().__init__(level=level)
         self.recorder = recorder
 

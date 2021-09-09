@@ -16,7 +16,9 @@ def test_default_logging_config():
         with redirect_stream(sys.stderr, output):
             logger.info("test")
             handler = root_logger.handlers[0]
-            assert isinstance(handler, StreamHandler), "The root logger should be configured with a StreamHandler by default"
+            assert isinstance(
+                handler, StreamHandler
+            ), "The root logger should be configured with a StreamHandler by default"
             handler.stream.flush()
         output.seek(0)
         assert output.read() == "test\n"

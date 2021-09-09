@@ -4,7 +4,6 @@ from typing import Generator, Optional
 
 from logs import Logger, LogRecord, get_logger
 
-
 _ctx_var: ContextVar[dict] = ContextVar("_ctx_var")
 
 

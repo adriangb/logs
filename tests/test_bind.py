@@ -109,7 +109,9 @@ def test_coroutine_concurrent_with_bind(logger: Logger):
     async def run():
         binder_task = asyncio.Task(enter_bind())
         logger_task = asyncio.Task(log())
-        await asyncio.wait((binder_task, logger_task), return_when=asyncio.FIRST_COMPLETED)
+        await asyncio.wait(
+            (binder_task, logger_task), return_when=asyncio.FIRST_COMPLETED
+        )
         binder_task.cancel()
 
     with capture_logs() as logs:

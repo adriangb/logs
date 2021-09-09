@@ -2,7 +2,7 @@ from datetime import datetime
 
 from logs import Formatter, LogRecord
 from logs.levels import LogLevel
-from logs.testing import CapturingHandler, CapturedRecord
+from logs.testing import CapturedRecord, CapturingHandler
 
 
 def test_formatter():
@@ -15,7 +15,7 @@ def test_formatter():
         extra={"test1": "val1", "test2": "val2"},
         created_at=time,
         process=0,
-        thread=0
+        thread=0,
     )
     recorder = CapturedRecord([], [])
     handler = CapturingHandler(recorder=recorder)

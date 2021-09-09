@@ -1,13 +1,13 @@
-import itertools
 import functools
-import typing as t
+import itertools
 import os
-import threading
 import sys
+import threading
+import typing as t
 from dataclasses import dataclass, replace
 from datetime import datetime
 
-from logs.levels import LogLevel, FiltererLevel
+from logs.levels import FiltererLevel, LogLevel
 
 
 @dataclass
@@ -23,13 +23,12 @@ class LogRecord:
     @functools.cached_property
     def message(self):
         return self.template.format(**vars(self))
-    
+
     def copy(self):
         return replace(self)
 
 
 class Formatter:
-
     def __init__(self, fmt: str = "{message}") -> None:
         self.fmt = fmt
 
@@ -44,7 +43,7 @@ class Formatter:
             **{
                 **vars(record),
                 "message": self.format_message(record),
-                "created_at": self.format_time(record)
+                "created_at": self.format_time(record),
             }
         )
 
@@ -66,7 +65,7 @@ class Filterer:
         self._lock = threading.RLock()
         self.filters = []
         self.level = level
-    
+
     def at_level(self, level: FiltererLevel) -> bool:
         if level.value < self.level.value:
             return False
@@ -110,11 +109,8 @@ class Handler(Filterer):
 
 
 class StreamHandler(Handler):
-
     def __init__(
-        self,
-        level: FiltererLevel = FiltererLevel.NOTSET,
-        stream: t.TextIO = sys.stderr
+        self, level: FiltererLevel = FiltererLevel.NOTSET, stream: t.TextIO = sys.stderr
     ) -> None:
         super().__init__(level=level)
         self.stream = stream
@@ -147,9 +143,9 @@ class Logger(Filterer):
 
     def __hash__(self) -> int:
         return hash(self.name)
-    
+
     def __repr__(self) -> str:
-        return f"Logger(\"{self.name}\")"
+        return f'Logger("{self.name}")'
 
     def add_handler(self, handler: Handler) -> None:
         with self._lock:
@@ -173,10 +169,7 @@ class Logger(Filterer):
             self.parent.log(record)
 
     def _create_record(
-        self,
-        template: str,
-        level: LogLevel,
-        extra: dict[str, t.Any] | None
+        self, template: str, level: LogLevel, extra: dict[str, t.Any] | None
     ):
         return LogRecord(
             template=template,
@@ -185,36 +178,28 @@ class Logger(Filterer):
             extra=extra if extra is not None else {},
             created_at=datetime.now(),
             process=os.getpid(),
-            thread=threading.get_ident()
+            thread=threading.get_ident(),
         )
 
     def debug(self, template: str, extra: dict[str, t.Any] | None = None) -> None:
         if self.at_level(LogLevel.DEBUG):
             self.log(
                 self._create_record(
-                    template=template,
-                    level=LogLevel.DEBUG,
-                    extra=extra
+                    template=template, level=LogLevel.DEBUG, extra=extra
                 )
             )
 
     def info(self, template: str, extra: dict[str, t.Any] | None = None) -> None:
         if self.at_level(LogLevel.INFO):
             self.log(
-                self._create_record(
-                    template=template,
-                    level=LogLevel.INFO,
-                    extra=extra
-                )
+                self._create_record(template=template, level=LogLevel.INFO, extra=extra)
             )
 
     def warning(self, template: str, extra: dict[str, t.Any] | None = None) -> None:
         if self.at_level(LogLevel.WARNING):
             self.log(
                 self._create_record(
-                    template=template,
-                    level=LogLevel.WARNING,
-                    extra=extra
+                    template=template, level=LogLevel.WARNING, extra=extra
                 )
             )
 
@@ -222,9 +207,7 @@ class Logger(Filterer):
         if self.at_level(LogLevel.ERROR):
             self.log(
                 self._create_record(
-                    template=template,
-                    level=LogLevel.ERROR,
-                    extra=extra
+                    template=template, level=LogLevel.ERROR, extra=extra
                 )
             )
 
@@ -232,9 +215,7 @@ class Logger(Filterer):
         if self.at_level(LogLevel.CRITICAL):
             self.log(
                 self._create_record(
-                    template=template,
-                    level=LogLevel.CRITICAL,
-                    extra=extra
+                    template=template, level=LogLevel.CRITICAL, extra=extra
                 )
             )
 
@@ -261,7 +242,9 @@ class _LoggerManager:
                     child.parent = logger
             else:
                 # make sure there are loggers from the root logger to this logger
-                for subpath in itertools.accumulate(path[:-1], lambda path, leaf: f"{path}.{leaf}"):
+                for subpath in itertools.accumulate(
+                    path[:-1], lambda path, leaf: f"{path}.{leaf}"
+                ):
                     if subpath not in self._loggers:
                         self._loggers[subpath] = Logger(subpath)
                         self._loggers[subpath].parent = parent
@@ -273,7 +256,7 @@ class _LoggerManager:
                 self._children[logger] = set()
                 # register the logger
                 self._loggers[logger.name] = logger
-    
+
     def remove_logger(self, name: str) -> None:
         if name == "":
             self.initialize()

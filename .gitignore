@@ -5,3 +5,6 @@ __pycache__
 !/tests
 !/README.md
 !/pyproject.toml
+!/docs
+!/examples
+!/index.html

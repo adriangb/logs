@@ -1,6 +1,7 @@
 import pytest
 
-from logs import Filter, LogRecord, Logger, get_logger, register_logger, testing
+from logs import (Filter, Logger, LogRecord, get_logger, register_logger,
+                  testing)
 from logs.levels import FiltererLevel
 
 
@@ -20,12 +21,13 @@ def test_level_notset():
 
 
 @pytest.mark.parametrize(
-    "logger_level, expected_output", (
+    "logger_level, expected_output",
+    (
         (FiltererLevel.DEBUG, ["debug", "info", "error", "critical"]),
         (FiltererLevel.INFO, ["info", "error", "critical"]),
         (FiltererLevel.ERROR, ["error", "critical"]),
         (FiltererLevel.CRITICAL, ["critical"]),
-    )
+    ),
 )
 def test_levels(logger_level: FiltererLevel, expected_output: list[str]):
     logger = get_logger("test")
@@ -51,13 +53,14 @@ def not_b_filter(record: LogRecord) -> LogRecord | None:
 
 
 @pytest.mark.parametrize(
-    "filters, expected_output", (
+    "filters, expected_output",
+    (
         ([], ["a", "b", "c"]),
         ([not_a_filter], ["b", "c"]),
         ([not_b_filter], ["a", "c"]),
         ([not_a_filter, not_b_filter], ["c"]),
         ([not_b_filter, not_a_filter], ["c"]),
-    )
+    ),
 )
 def test_filters(filters: list[Filter], expected_output: list[str]):
     logger = get_logger("test")
@@ -71,14 +74,21 @@ def test_filters(filters: list[Filter], expected_output: list[str]):
 
 
 @pytest.mark.parametrize(
-    "captured_logger,emitting_logger,expected_output", (
+    "captured_logger,emitting_logger,expected_output",
+    (
         (Logger("grandparent"), Logger("grandparent.parent"), ["test"]),
         (Logger("grandparent"), Logger("grandparent.parent.child"), ["test"]),
         (Logger("grandparent"), Logger("grandparent.parent", propagate=False), []),
-        (Logger("grandparent"), Logger("grandparent.parent.child", propagate=False), []),
-    )
+        (
+            Logger("grandparent"),
+            Logger("grandparent.parent.child", propagate=False),
+            [],
+        ),
+    ),
 )
-def test_propagation(captured_logger: Logger, emitting_logger: Logger, expected_output: list[str]):
+def test_propagation(
+    captured_logger: Logger, emitting_logger: Logger, expected_output: list[str]
+):
     register_logger(captured_logger)
     register_logger(emitting_logger)
     with testing.capture_logs(captured_logger) as captured_logs:
