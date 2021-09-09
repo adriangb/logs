@@ -15,14 +15,15 @@ So needless to say, this is not meant to be used by _anyone_.
 
 So what are the changes?
 
-- Renamed the `extra` keyword to `data` and made it a first class citizen of `LogRecord`, which makes it much easier to use than trying figure out key collisions with the existing `LogRecord` attributes.
+- Don't unpack `extra` into `LogRecord.__dict__`.
 - Only one way to format strings: the `string.format()` format.
 - By default, the root logger is configured to log to `sys.stderr`.
 - Filters don't modify LogRecord in place (which propagates to other handlers/loggers). Instead, they either return a LogRecord (the same one or a different modified one) or None (which breaks the filter chain).
 - Filters are (and can only be) a callable (including a class w/ `__call__`)
-- Testing tools, primarily to capture logs. Similar to `unittest.assertLogs` and Pytest's `caplog` fixture.
+- Testing tools, primarily to capture logs. Similar to `unittest.assertLogs` and Pytest's `caplog` fixture
+- Utilities to bind values to loggers
 - No backwards compatibility stuff
-- Type hints, no `*args, **kwargs` anywhere.
+- Type hints
 
 ## Example
 

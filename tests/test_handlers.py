@@ -11,7 +11,7 @@ def test_stream_handler():
         template="test",
         name="test",
         level=LogLevel.INFO,
-        data={},
+        extra={},
         created_at=time,
         process=0,
         thread=0

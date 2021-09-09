@@ -15,7 +15,7 @@ class LogRecord:
     template: str
     name: str
     level: LogLevel
-    data: t.Mapping[str, t.Any]
+    extra: t.MutableMapping[str, t.Any]
     created_at: datetime
     process: int
     thread: int
@@ -176,65 +176,65 @@ class Logger(Filterer):
         self,
         template: str,
         level: LogLevel,
-        data: dict[str, t.Any] | None
+        extra: dict[str, t.Any] | None
     ):
         return LogRecord(
             template=template,
             level=level,
             name=self.name,
-            data=data if data is not None else {},
+            extra=extra if extra is not None else {},
             created_at=datetime.now(),
             process=os.getpid(),
             thread=threading.get_ident()
         )
 
-    def debug(self, template: str, data: dict[str, t.Any] | None = None) -> None:
+    def debug(self, template: str, extra: dict[str, t.Any] | None = None) -> None:
         if self.at_level(LogLevel.DEBUG):
             self.log(
                 self._create_record(
                     template=template,
                     level=LogLevel.DEBUG,
-                    data=data
+                    extra=extra
                 )
             )
 
-    def info(self, template: str, data: dict[str, t.Any] | None = None) -> None:
+    def info(self, template: str, extra: dict[str, t.Any] | None = None) -> None:
         if self.at_level(LogLevel.INFO):
             self.log(
                 self._create_record(
                     template=template,
                     level=LogLevel.INFO,
-                    data=data
+                    extra=extra
                 )
             )
 
-    def warning(self, template: str, data: dict[str, t.Any] | None = None) -> None:
+    def warning(self, template: str, extra: dict[str, t.Any] | None = None) -> None:
         if self.at_level(LogLevel.WARNING):
             self.log(
                 self._create_record(
                     template=template,
                     level=LogLevel.WARNING,
-                    data=data
+                    extra=extra
                 )
             )
 
-    def error(self, template: str, data: dict[str, t.Any] | None = None) -> None:
+    def error(self, template: str, extra: dict[str, t.Any] | None = None) -> None:
         if self.at_level(LogLevel.ERROR):
             self.log(
                 self._create_record(
                     template=template,
                     level=LogLevel.ERROR,
-                    data=data
+                    extra=extra
                 )
             )
 
-    def critical(self, template: str, data: dict[str, t.Any] | None = None) -> None:
+    def critical(self, template: str, extra: dict[str, t.Any] | None = None) -> None:
         if self.at_level(LogLevel.CRITICAL):
             self.log(
                 self._create_record(
                     template=template,
                     level=LogLevel.CRITICAL,
-                    data=data
+                    extra=extra
                 )
             )
 

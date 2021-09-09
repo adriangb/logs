@@ -6,13 +6,13 @@ from logs.testing import CapturingHandler, CapturedRecord
 
 
 def test_formatter():
-    formatter = Formatter(fmt="{created_at} - {data[test1]}: {message}")
+    formatter = Formatter(fmt="{created_at} - {extra[test1]}: {message}")
     time = datetime(year=2021, month=9, day=1, hour=0, minute=0, second=0)
     record = LogRecord(
-        template="{data[test2]}",
+        template="{extra[test2]}",
         name="test",
         level=LogLevel.INFO,
-        data={"test1": "val1", "test2": "val2"},
+        extra={"test1": "val1", "test2": "val2"},
         created_at=time,
         process=0,
         thread=0

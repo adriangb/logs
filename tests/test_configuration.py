@@ -1,10 +1,13 @@
 import sys
 from tempfile import TemporaryFile
 
+import pytest
+
 from logs import StreamHandler, get_logger
 from tests.utils import redirect_stream
 
 
+@pytest.mark.usefixtures("reset_logging")
 def test_default_logging_config():
     # should have a root logger emitting to stderr
     logger = get_logger("test")
