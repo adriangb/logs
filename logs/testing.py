@@ -13,7 +13,7 @@ class CapturedRecord(t.NamedTuple):
 class CapturingHandler(Handler):
     def __init__(
         self,
-        level: t.Union[str, int] = FiltererLevel.NOTSET,
+        level: FiltererLevel = FiltererLevel.NOTSET,
         *,
         recorder: CapturedRecord,
     ) -> None:
@@ -29,7 +29,7 @@ class CapturingHandler(Handler):
 @contextmanager
 def capture_logs(
     logger: Logger | str | None = None,
-    level: int | str | None = None,
+    level: FiltererLevel | None = None,
     *,
     formatter: Formatter | None = None,
     filters: t.Sequence[Filter] | None = None,

@@ -9,7 +9,6 @@ def main():
     with bind(key="value"):
         logger.info("{extra}")  # prints "{"key": "value"}"
 
-
     logger2 = get_logger("other")
     with bind(logger2, key="value"):
         logger.info("{extra}")  # prints "{}"

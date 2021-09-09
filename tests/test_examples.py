@@ -1,11 +1,10 @@
 import re
 
-from logs.testing import capture_logs
-
 from examples.bind import main as bind_main
 from examples.filters import main as filters_main
 from examples.formatting import main as formatting_main
 from examples.testing import main as testing_main
+from logs.testing import capture_logs
 
 
 def test_bind_example():

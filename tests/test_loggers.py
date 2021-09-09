@@ -1,7 +1,6 @@
 import pytest
 
-from logs import (Filter, Logger, LogRecord, get_logger, register_logger,
-                  testing)
+from logs import Filter, Logger, LogRecord, get_logger, register_logger, testing
 from logs.levels import FiltererLevel
 
 
@@ -86,9 +85,7 @@ def test_filters(filters: list[Filter], expected_output: list[str]):
         ),
     ),
 )
-def test_propagation(
-    captured_logger: Logger, emitting_logger: Logger, expected_output: list[str]
-):
+def test_propagation(captured_logger: Logger, emitting_logger: Logger, expected_output: list[str]):
     register_logger(captured_logger)
     register_logger(emitting_logger)
     with testing.capture_logs(captured_logger) as captured_logs:

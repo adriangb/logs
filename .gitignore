@@ -8,3 +8,6 @@ __pycache__
 !/docs
 !/examples
 !/index.html
+!/.pre-commit-config.yaml
+!/scripts
+!/.github

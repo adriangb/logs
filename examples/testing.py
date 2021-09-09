@@ -1,4 +1,4 @@
-from logs import get_logger, Formatter, LogRecord
+from logs import Formatter, LogRecord, get_logger
 from logs.testing import capture_logs
 
 
@@ -8,7 +8,6 @@ def main():
     class CustomFormatter(Formatter):
         def format_time(self, record: LogRecord) -> str:
             return "2021"
-
 
     with capture_logs(formatter=CustomFormatter(fmt="{message} - {created_at}")) as logs:
         logger.info("Test", extra=dict(key="value"))

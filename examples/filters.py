@@ -1,4 +1,4 @@
-from logs import get_logger, LogRecord
+from logs import LogRecord, get_logger
 
 
 def main():
@@ -8,6 +8,7 @@ def main():
     def only_allow_with_thing(record: LogRecord) -> LogRecord | None:
         if "thing" in record.extra:
             return record
+        return None
 
     logger.add_filter(only_allow_with_thing)
     # prints "1234"
