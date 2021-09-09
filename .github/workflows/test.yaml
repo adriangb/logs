@@ -21,4 +21,6 @@ jobs:
           pip install --pre poetry
           poetry install
       - name: Run tests
-        run: poetry run pytest -v
+        run: |
+          poetry run pre-commit run --all-files
+          poetry run pytest -v
