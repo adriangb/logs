@@ -19,6 +19,7 @@ This is not an attempt to re-imagine logging (see [Loguru] for a great productio
 - Filters are (and can only be) a callable (including a class w/ `__call__`)
 - No backwards compatibility stuff
 - Type hints
+- Only 1 config format: dict config, no support for reading from files directly. (Not implemented)
 
 ### Formatting
 
